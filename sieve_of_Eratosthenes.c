@@ -15,9 +15,11 @@ int creat_prime(void)
 	for (i = 1; ((i&~1)<<1) * ((i&~1) + (i>>1) + 1) < size; i++)
 	{
 		if (p[i >> 5] >> (i & 31) & 1) continue;
+		
 		len = (i & 1)? ((i&~1)<<1) + 3: ((i&~1)<<2) + 1;
 		stp = ((i&~1)<<1) + ((i&~1)<<2) + ((i & 1)? 10: 2);
 		j = ((i&~1)<<1) * (((i&~1)>>1) + (i&~1) + 1) + ((i & 1)? ((i&~1)<<3) + 8 + len: len);
+		
 		for (; j < size; j += stp)
 		{
 			if (p[j >> 5] >> (j & 31) & 1 ^ 1)
@@ -25,9 +27,11 @@ int creat_prime(void)
 			if (p[(j-len) >> 5] >> ((j-len) & 31) & 1 ^ 1)
 				p[(j-len) >> 5] |= 1L << ((j-len) & 31), --c;
 		}
+		
 		if (j - len < size && (p[(j-len) >> 5] >> ((j-len) & 31) & 1 ^ 1))
 			p[(j-len) >> 5] |= 1L << ((j-len) & 31), --c;
 	}
+
 	return c;
 }
 
